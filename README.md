@@ -56,6 +56,25 @@ All dataset/model/hyperparameter settings live in `viqa/config.py`:
 | `NUM_EPOCHS`, `LEARNING_RATE`, `MAX_SOURCE_LENGTH`, ... | training hyperparameters |
 | `HF_PUSH`, `HF_PRIVATE_REPOS`, `HF_REPO_PREFIX` | Hub push behaviour |
 
+## Citation
+
+A paper describing this benchmark is in preparation. If you use this code or the
+released checkpoints, please cite it once it is available — the entry below is a
+placeholder and will be updated with the final venue, authors, and year.
+
+```bibtex
+@misc{TODO_citation_key,
+  title        = {TODO: paper title},
+  author       = {TODO: author list},
+  year         = {TODO},
+  howpublished = {TODO: venue / arXiv preprint},
+  note         = {Preprint in preparation},
+  url          = {https://github.com/chaubaonhan/QA_Huit}
+}
+```
+
+In the meantime, please cite the repository itself (see `CITATION.cff`).
+
 ## Project layout
 
 ```

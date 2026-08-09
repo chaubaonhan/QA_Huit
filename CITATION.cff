@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it as below. A paper describing this
+  benchmark is in preparation; this file will be updated with the paper's
+  reference once it is published.
+title: "Vietnamese Seq2Seq QA Benchmark"
+abstract: >-
+  Fine-tuning and evaluation pipeline benchmarking five encoder-decoder models
+  (ViT5, BARTpho-syllable, mBART-large-50, ByT5-small, mT5-base) on Vietnamese
+  question answering, with and without context.
+authors:
+  # TODO: replace with the full author list of the upcoming paper
+  - family-names: "TODO"
+    given-names: "TODO"
+repository-code: "https://github.com/chaubaonhan/QA_Huit"
+# TODO: add a license, e.g. `license: MIT` or `license: Apache-2.0`
+keywords:
+  - question-answering
+  - vietnamese
+  - benchmark
+  - seq2seq
+  - transformers
+
+# TODO: uncomment and fill in once the paper is out, so `preferred-citation`
+# takes precedence over the software entry above.
+#
+# preferred-citation:
+#   type: article
+#   title: "TODO: paper title"
+#   authors:
+#     - family-names: "TODO"
+#       given-names: "TODO"
+#   year: TODO
+#   journal: "TODO: venue or arXiv"
+#   doi: "TODO"
+#   url: "TODO"
