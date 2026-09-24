@@ -74,12 +74,18 @@ def make_training_args(output_dir: str, train_bs: int, runtime: Runtime):
     return Seq2SeqTrainingArguments(**kwargs), grad_accum, eval_bs
 
 
-def train_one_model(run_name: str, cfg: dict, use_context: bool, dataset, runtime: Runtime):
+def train_one_model(
+    run_name: str, cfg: dict, use_context: bool, dataset, runtime: Runtime, context_field: str = "context"
+):
     model_id, mode = cfg["id"], cfg["preprocess"]
     tokenizer = load_tokenizer(cfg)
 
-    train_ds = prepare_tokenized(dataset["train"], tokenizer, mode, use_context, f"tokenize-train-{run_name}")
-    val_ds = prepare_tokenized(dataset["validation"], tokenizer, mode, use_context, f"tokenize-val-{run_name}")
+    train_ds = prepare_tokenized(
+        dataset["train"], tokenizer, mode, use_context, f"tokenize-train-{run_name}", context_field
+    )
+    val_ds = prepare_tokenized(
+        dataset["validation"], tokenizer, mode, use_context, f"tokenize-val-{run_name}", context_field
+    )
 
     output_dir = os.path.join(config.OUTPUT_ROOT, safe_name_of(run_name))
     last_oom = None

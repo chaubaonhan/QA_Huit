@@ -10,3 +10,5 @@ py-vncorenlp
 pandas
 numpy
 tqdm
+sentence-transformers>=3.0
+faiss-cpu>=1.8

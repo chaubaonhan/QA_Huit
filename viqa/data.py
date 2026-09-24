@@ -51,10 +51,17 @@ def preprocess_text(text, mode: str) -> str:
     return _word_segment_cached(text)
 
 
-def make_source(example, mode: str, use_context: bool) -> str:
+def make_source(example, mode: str, use_context: bool, context_field: str = "context") -> str:
+    """Build the generator input.
+
+    context_field selects which context is shown to the model: "context" (annotated reference
+    context) or "retrieved_context" (output of viqa.retrieval).
+    """
     q = preprocess_text(example["question_text"], mode)
     if use_context:
-        c = preprocess_text(example.get("context", ""), mode)
+        if context_field not in example:
+            raise KeyError(f"Column '{context_field}' not found; run viqa.retrieval.attach_retrieved_context first")
+        c = preprocess_text(example[context_field] or "", mode)
         return f"Câu hỏi: {q}\nNgữ cảnh: {c}"
     return f"Câu hỏi: {q}"
 
@@ -104,13 +111,13 @@ def question_leakage_report(dataset) -> dict:
     }
 
 
-def prepare_tokenized(raw_ds, tokenizer, mode: str, use_context: bool, desc: str):
+def prepare_tokenized(raw_ds, tokenizer, mode: str, use_context: bool, desc: str, context_field: str = "context"):
     def batch_fn(batch):
         n = len(batch["question_text"])
         sources, targets = [], []
         for i in range(n):
             ex = {k: batch[k][i] for k in batch.keys()}
-            sources.append(make_source(ex, mode, use_context))
+            sources.append(make_source(ex, mode, use_context, context_field))
             targets.append(make_target(ex["answer"], mode))
         inputs = tokenizer(sources, max_length=config.MAX_SOURCE_LENGTH, truncation=True, padding=False)
         labels = tokenizer(text_target=targets, max_length=config.MAX_TARGET_LENGTH, truncation=True, padding=False)

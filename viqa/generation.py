@@ -19,7 +19,9 @@ def clean_prediction(text: str, mode: str) -> str:
 
 
 @torch.inference_mode()
-def generate_predictions(model, tokenizer, cfg: dict, use_context: bool, test_ds, runtime: Runtime):
+def generate_predictions(
+    model, tokenizer, cfg: dict, use_context: bool, test_ds, runtime: Runtime, context_field: str = "context"
+):
     model.eval()
     model.config.use_cache = True
     mode = cfg["preprocess"]
@@ -37,7 +39,7 @@ def generate_predictions(model, tokenizer, cfg: dict, use_context: bool, test_ds
             break
         try:
             batch = test_ds[i:i + current_bs]
-            sources = [make_source({k: batch[k][j] for k in batch}, mode, use_context) for j in range(current_bs)]
+            sources = [make_source({k: batch[k][j] for k in batch}, mode, use_context, context_field) for j in range(current_bs)]
             enc = tokenizer(sources, return_tensors="pt", padding=True, truncation=True, max_length=config.MAX_SOURCE_LENGTH)
             enc = {k: v.to(device) for k, v in enc.items()}
 
